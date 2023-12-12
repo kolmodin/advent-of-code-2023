@@ -1,10 +1,9 @@
-use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs;
 
 #[derive(Debug)]
 struct Card {
-    id: i32,
+    id: usize,
     winners: Vec<i32>,
     my_numbers: Vec<i32>,
 }
@@ -23,16 +22,16 @@ impl Card {
         };
 
         Card {
-            id: card.split(' ').last().unwrap().parse::<i32>().unwrap(),
+            id: card.split(' ').last().unwrap().parse::<usize>().unwrap(),
             winners: parse(winners),
             my_numbers: parse(mine),
         }
     }
 
-    fn count_matches(self: &Self) -> i32 {
+    fn count_matches(self: &Self) -> usize {
         let w = self.winners.clone().into_iter().collect::<HashSet<_>>();
         let m = self.my_numbers.clone().into_iter().collect();
-        w.intersection(&m).collect::<Vec<_>>().len() as i32
+        w.intersection(&m).collect::<Vec<_>>().len()
     }
 
     fn points(self: &Self) -> i32 {
@@ -47,45 +46,14 @@ impl Card {
     }
 }
 
-struct ScoreCounter<'a> {
-    cards: &'a [Card],
-    visited: HashMap<i32, i32>,
-}
-
-impl ScoreCounter<'_> {
-    fn new<'a>(cards: &'a[Card]) -> ScoreCounter<'a> {
-        ScoreCounter { cards: cards, visited: HashMap::new() }
-    }
-
-    fn visit_all(self: &mut Self) -> i32 {
-        self.cards.iter().map(|card|self.visit(card)).sum()
-    }
-
-    fn visit(self: &mut Self, card: &Card) -> i32 {
-        if let Some(score) = self.visited.get(&card.id) {
-            return *score;
-        }
-
-        let matches = card.count_matches();
-        if matches == 0 {
-            self.visited.insert(card.id, 1);
-            return 1;
-        }
-
-        let range = (card.id + 1)..=(card.id + matches);
-        let mut sum = 1;
-        for id in range {
-            let card = &self.cards[(id - 1) as usize];
-            sum += self.visit(card);
-        }
-
-        self.visited.insert(card.id, sum);
-        return sum;
-    }
-}
-
 fn count_copies(cards: &[Card]) -> i32 {
-    ScoreCounter::new(cards).visit_all()
+    let mut visited = vec![0; cards.len()];
+
+    for card in cards.iter().rev() {
+        visited[card.id - 1] = 1 + &visited[card.id..card.id + card.count_matches()].iter().sum::<i32>();
+    }
+
+    visited.iter().sum::<i32>()
 }
 
 fn main() {
@@ -95,6 +63,5 @@ fn main() {
     let cards = contents.lines().map(Card::from_line).collect::<Vec<_>>();
 
     println!("Part 1: {}", cards.iter().map(Card::points).sum::<i32>());
-
     println!("Part 2: {}", count_copies(&cards));
 }
