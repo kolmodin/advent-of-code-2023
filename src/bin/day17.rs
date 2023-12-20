@@ -252,17 +252,15 @@ impl SearchNode for NodePart2 {
         let node = &self.0;
 
         for dir in [Dir::Up, Dir::Left, Dir::Down, Dir::Right] {
-            if node.dir != dir && node.moves_in_dir < 4 {
-                continue;
-            }
-            if node.dir == dir && node.moves_in_dir >= 10 {
-                continue;
-            }
-            if node.dir.is_opposite(dir) {
-                continue;
-            }
             let pos = node.pos.forward(dir);
-            if pos.x < 0 || pos.x >= grid.width || pos.y < 0 || pos.y >= grid.height {
+            if node.dir != dir && node.moves_in_dir < 4
+                || node.dir == dir && node.moves_in_dir >= 10
+                || node.dir.is_opposite(dir)
+                || pos.x < 0
+                || pos.x >= grid.width
+                || pos.y < 0
+                || pos.y >= grid.height
+            {
                 continue;
             }
             let heat_loss = node.heat_loss + (grid.get(&pos) - b'0') as i32;
