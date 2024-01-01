@@ -11,7 +11,7 @@ struct Pos2 {
 }
 
 impl Pos2 {
-    fn up(self: &Self) -> Pos2 {
+    fn up(&self) -> Pos2 {
         Pos2 {
             y: self.y - 1,
             x: self.x,
@@ -118,7 +118,7 @@ impl Grid {
         grid
     }
 
-    fn rotate_right(self: &Self) -> Grid {
+    fn rotate_right(&self) -> Grid {
         let mut grid = self.clone();
         (grid.height, grid.width) = (grid.width, grid.height);
 
@@ -136,7 +136,7 @@ impl Grid {
         grid
     }
 
-    fn load(self: &Self) -> i32 {
+    fn load(&self) -> i32 {
         let mut result = 0;
         for y in 0..self.height {
             for x in 0..self.width {

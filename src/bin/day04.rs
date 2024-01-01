@@ -28,13 +28,13 @@ impl Card {
         }
     }
 
-    fn count_matches(self: &Self) -> usize {
+    fn count_matches(&self) -> usize {
         let w = self.winners.clone().into_iter().collect::<HashSet<_>>();
         let m = self.my_numbers.clone().into_iter().collect();
         w.intersection(&m).collect::<Vec<_>>().len()
     }
 
-    fn points(self: &Self) -> i32 {
+    fn points(&self) -> i32 {
         let w = self.winners.clone().into_iter().collect::<HashSet<_>>();
         let m = self.my_numbers.clone().into_iter().collect();
         let matches: Vec<_> = w.intersection(&m).collect();
@@ -42,7 +42,7 @@ impl Card {
         if matches.is_empty() {
             return 0;
         }
-        2_i32.pow((matches.len() - 1) as u32) as i32
+        2_i32.pow((matches.len() - 1) as u32) 
     }
 }
 

@@ -33,7 +33,7 @@ fn main() {
 
     for input in &inputs {
         let (label, rest) = split_label(input);
-        let label_hash = hash_str(&label);
+        let label_hash = hash_str(label);
 
         if rest.as_bytes()[0] == b'-' {
             boxes[label_hash].retain(|(slabel, _)| *slabel != label);

@@ -40,7 +40,7 @@ fn do_line2(s: &str, dict: &[(&str, u32)]) -> u32 {
         }
     }
     let (fst, last) = nums.unwrap();
-    return fst * 10 + last;
+    fst * 10 + last
 }
 
 fn main() {

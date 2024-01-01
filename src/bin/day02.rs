@@ -14,7 +14,7 @@ impl Hand {
         Hand {red:0, green:0, blue:0}
     }
 
-    fn is_valid(self: &Self) -> bool {
+    fn is_valid(&self) -> bool {
         self.red <= 12 && self.green <= 13 && self.blue <= 14
     }
 
@@ -26,7 +26,7 @@ impl Hand {
         }
     }
 
-    fn power(self: &Self) -> u32 {
+    fn power(&self) -> u32 {
         self.red * self.green * self.blue
     }
 }
@@ -71,13 +71,13 @@ impl Game {
         }
     }
 
-    fn all_hands_valid(self: &Game) -> bool {
+    fn all_hands_valid(&self) -> bool {
         self.hands
             .iter()
             .all(Hand::is_valid)
     }
 
-    fn smallest_hand(self: &Game) -> Hand {
+    fn smallest_hand(&self) -> Hand {
         self.hands.iter().fold(Hand::empty(), Hand::minimum)
     }
 }

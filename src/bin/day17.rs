@@ -32,8 +32,8 @@ enum Dir {
 }
 
 impl Dir {
-    fn to_pos(&self) -> Pos2 {
-        match *self {
+    fn to_pos(self) -> Pos2 {
+        match self {
             Dir::Up => Pos2 { y: -1, x: 0 },
             Dir::Down => Pos2 { y: 1, x: 0 },
             Dir::Left => Pos2 { y: 0, x: -1 },
@@ -112,7 +112,7 @@ where
 impl<'a, T: SearchNode + Hash + Eq> Search<'a, T> {
     fn new(grid: &'a Grid, init: T) -> Self {
         let mut search = Search {
-            grid: &grid,
+            grid,
             visited: HashMap::new(),
             queue: PriorityQueue::new(),
         };
@@ -149,7 +149,7 @@ impl<'a, T: SearchNode + Hash + Eq> Search<'a, T> {
 
             self.visited.insert(node.rep(), node.heat_loss());
 
-            for node in node.next(&self.grid) {
+            for node in node.next(self.grid) {
                 let cost = node.cost(&target_pos);
                 self.queue.push(node, -cost);
             }

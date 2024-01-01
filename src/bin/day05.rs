@@ -62,7 +62,7 @@ impl Input {
         }
     }
 
-    fn reverse_maps(self: &Self) -> Input {
+    fn reverse_maps(&self) -> Input {
         Input {
             seeds: self.seeds.clone(),
             seed_ranges: self.seed_ranges.clone(),
@@ -85,7 +85,7 @@ impl Input {
         }
     }
 
-    fn solve(self: &Self, seed: i64) -> i64 {
+    fn solve(&self, seed: i64) -> i64 {
         let mut seed = seed;
         'outer: for map in &self.maps {
             for mapping in map {
@@ -95,7 +95,7 @@ impl Input {
                 }
             }
         }
-        return seed;
+        seed
     }
 }
 

@@ -26,7 +26,7 @@ fn next_history(seq: &[i32]) -> i32 {
 
     let mut last_diff = 0;
     for row in (0..=seqs.len()-2).rev() {
-        last_diff = seqs[row].last().unwrap() + last_diff;
+        last_diff += seqs[row].last().unwrap();
         seqs[row].push(last_diff);
     }
 

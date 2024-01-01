@@ -55,8 +55,8 @@ enum Dir {
 }
 
 impl Dir {
-    fn to_diff(&self) -> Pos2 {
-        match *self {
+    fn to_diff(self) -> Pos2 {
+        match self {
             Dir::Up => Pos2 { y: -1, x: 0 },
             Dir::Down => Pos2 { y: 1, x: 0 },
             Dir::Left => Pos2 { y: 0, x: -1 },

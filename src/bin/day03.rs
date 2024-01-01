@@ -36,10 +36,10 @@ impl Num {
             ix += 1;
         }
 
-        return nums;
+        nums
     }
 
-    fn edge(self: &Self) -> Vec<Pos2> {
+    fn edge(&self) -> Vec<Pos2> {
         let mut res = vec![];
 
         for col in (self.start - 1)..=self.end {
@@ -150,7 +150,7 @@ fn main() {
                     }
                 }
             }
-            return None;
+            None
         })
         .sum::<i32>();
 
